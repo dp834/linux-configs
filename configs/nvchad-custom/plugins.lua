@@ -6,9 +6,6 @@ local plugins = {
       config = function()
         require "custom.configs.null-ls"
       end,
-      dependencies = {
-        "joechrisellis/lsp-format-modifications.nvim",
-      },
     },
     config = function()
       require "plugins.configs.lspconfig"
@@ -59,6 +56,11 @@ local plugins = {
   {
     "p00f/clangd_extensions.nvim",
   },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000
+  }
 }
 
 return plugins
