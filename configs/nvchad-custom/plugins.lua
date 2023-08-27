@@ -6,6 +6,9 @@ local plugins = {
       config = function()
         require "custom.configs.null-ls"
       end,
+      dependencies = {
+        "joechrisellis/lsp-format-modifications.nvim",
+      },
     },
     config = function()
       require "plugins.configs.lspconfig"
@@ -38,10 +41,13 @@ local plugins = {
         "buildifier",
         "clangd",
         "clang-format",
-        "cpplint",
         "cmakelang",
         "cmakelint",
+        "codelldb",
+        "cmake-language-server",
         "lua-language-server",
+        "prettier",
+        "stylua",
         "yapf",
       },
     },
@@ -70,42 +76,6 @@ local plugins = {
     end,
   },
   {
-    "zbirenbaum/copilot.lua",
-    event = "InsertEnter",
-    lazy = false,
-    config = function()
-      require("copilot").setup {
-        suggestion = {
-          enable = false,
-        },
-        panel = {
-          enable = false,
-        },
-      }
-    end,
-  },
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      {
-        "zbirenbaum/copilot-cmp",
-        config = function()
-          require("copilot_cmp").setup()
-        end,
-      },
-    },
-    opts = {
-      sources = {
-        { name = "nvim_lsp" },
-        { name = "copilot" },
-        { name = "luasnip" },
-        { name = "buffer" },
-        { name = "nvim_lua" },
-        { name = "path" },
-      },
-    },
-  },
-  {
     "rcarriga/nvim-dap-ui",
     event = "VeryLazy",
     dependencies = "mfussenegger/nvim-dap",
@@ -127,7 +97,7 @@ local plugins = {
   {
     "jay-babu/mason-nvim-dap.nvim",
     event = "VeryLazy",
-    dependecies = {
+    dependencies = {
       "williamboman/mason.nvim",
       "mfussenegger/nvim-dap",
     },
@@ -139,8 +109,45 @@ local plugins = {
     "mfussenegger/nvim-dap",
     config = function(_, _)
       require("core.utils").load_mappings "dap"
-      require "custom.configs.dap"
     end,
+  },
+  {
+    "zbirenbaum/copilot.lua",
+    event = "InsertEnter",
+    lazy = false,
+    config = function()
+      require("copilot").setup {
+        -- Possible configurable fields can be found on:
+        -- https://github.com/zbirenbaum/copilot.lua#setup-and-configuration
+        suggestion = {
+          enable = false,
+        },
+        panel = {
+          enable = false,
+        },
+      }
+    end,
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      {
+        "zbirenbaum/copilot-cmp",
+        config = function()
+          require("copilot_cmp").setup()
+        end,
+      },
+    },
+    opts = {
+      sources = {
+        { name = "nvim_lsp", group_index = 2 },
+        { name = "copilot", group_index = 2 },
+        { name = "luasnip", group_index = 2 },
+        { name = "buffer", group_index = 2 },
+        { name = "nvim_lua", group_index = 2 },
+        { name = "path", group_index = 2 },
+      },
+    },
   },
 }
 

@@ -11,28 +11,35 @@ local sources = {
   formatting.buf,
   formatting.buildifier,
   formatting.cmake_format,
+  formatting.autopep8,
 
   lint.shellcheck,
-  lint.cmake_lint,
 }
 
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
+-- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 require("null-ls").setup {
   debug = false,
   sources = sources,
   -- you can reuse a shared lspconfig on_attach callback here
   on_attach = function(client, bufnr)
     if client.supports_method "textDocument/formatting" then
-      vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
+      vim.api.nvim_clear_autocmds {
+        group = augroup,
+        buffer = bufnr,
+      }
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = augroup,
         buffer = bufnr,
         callback = function()
-          -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
           vim.lsp.buf.format { bufnr = bufnr }
         end,
       })
     end
+    -- local lsp_format_modifications = require"lsp-format-modifications"
+    -- lsp_format_modifications.attach(client, bufnr, {format_on_save = true})
+    -- require"lsp_signature".on_attach({},bufnr)
 
     -- inlay hints
     require("lsp-inlayhints").on_attach(client, bufnr)

@@ -3,7 +3,7 @@ local capabilities = require("plugins.configs.lspconfig").capabilities
 
 local lspconfig = require "lspconfig"
 -- We handle clangd with another extension
-local servers = { "clangd", "cmake", "bashls" }
+  local servers = {"clangd", "cmake", "bashls", "pyright" }
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -12,12 +12,12 @@ for _, lsp in ipairs(servers) do
   }
 end
 
-local utils = require "core.utils"
-require("clangd_extensions").setup {
+require("clangd_extensions").setup({
   server = {
-    on_attach = on_attach,
+    on_attach = on_attach
   },
   extensions = {
     autoSetHints = true,
   },
-}
+})
+
